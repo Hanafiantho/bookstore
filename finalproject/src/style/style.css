@@ -1,0 +1,287 @@
+body {
+    font-family: 'Merriweather', serif;
+}
+
+.main-container {
+    margin-top: 30px!important;
+}
+
+.main-container-wl {
+    margin-top: 47px!important;
+}
+
+.main-logo {
+    width: 120px;
+}
+
+.image1 {
+    height: 470px;
+    background-image: url('../img/slide4.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+.image2 {
+    height: 470px;
+    background-image: url('../img/slide2.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+.image3 {
+    height: 470px;
+    background-image: url('../img/slide3.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+.apfont {
+    font-size: 12px!important;
+}
+
+.lock-icon {
+    width: 16px;
+}
+
+.modal-login {
+    width: 350px;
+}
+
+/* Navigation */
+.navstyle {
+    color: black;
+    font-size: 16px;
+    /* font-family: 'Cabin Sketch', cursive; */
+}
+
+.nav-logo {
+    width : 30px;
+}
+
+.navhover:hover {
+    -webkit-animation: bounceright .3s alternate ease infinite;
+    animation: bounceright .3s alternate ease infinite;
+    color: black;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+@-webkit-keyframes bounceright {
+    from { -webkit-transform: translateX(0); }
+    to   { -webkit-transform: translateX(3px); }
+}
+
+@keyframes bounceright {
+    from { transform: translateX(0); }
+    to   { transform: translateX(3px); }
+}
+
+/* TOPHEADER */
+/* Login Link Effect */
+.loginhover:hover {
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.userLog {
+    padding-right: 30px;
+}
+
+/* Dropdown Menu on TopHeadar */
+.drop-item {
+    font-size: 14px;
+}
+
+/* See All Link Effect */
+.seeallhover:hover {
+    -webkit-transform: skew(-20deg);
+    /* animation: none; */
+    transform: skew(-20deg);
+    text-indent: .1em;
+    color: black;
+    font-weight: bold;
+}
+
+/* REGISTRATION */
+.card-regist {
+    border: 2px solid black;
+}
+
+.regist-form {
+    width: 65% !important;
+    margin: 35px auto !important;
+    border: 2px solid black;
+    border-radius: 25px;
+    padding: 14px 30px;
+}
+
+.regist-input {
+    border-top: none;
+    border-right: none;
+    border-left: none;
+    border-bottom: 1px solid black;
+    width: 100%;
+    height: 30px;
+    outline: none;
+}
+
+input::placeholder {
+    color: rgb(63, 62, 62);
+}
+
+.img-regist {
+    background-image: url('../img/registImg1.jpg');
+    background-size: cover;
+    background-position: center;
+    border-radius: 25px 5px 5px 25px;
+}
+
+.regist-logo {
+    width: 15px; 
+    position: absolute;
+}
+
+/* EDIT PROFILE */
+.icon {
+    width: 18px;
+}
+
+.avatar-place {
+    margin: 0px auto;
+    width: 200px;
+    height: 200px;
+}
+
+.userAvatar {
+    width: 200px; 
+    height: 200px; 
+}
+
+.cardAvatar {
+    height: 400px
+}
+
+.saveAvaBtn {
+    width: 213px; 
+    height: 40px; 
+    color: white; 
+    background-color: black
+}
+
+.file-requirement {
+    font-size: 12px;
+}
+
+.table-info {
+    width: 95%;
+    background-color: white;
+}
+
+.user-info {
+    width: 30%;
+    height: 40px;
+}
+
+.browserfile-btn {
+    width: 200px;
+    color: white;
+}
+
+.brwsfile {
+    padding: 10px;
+    margin: 0px auto;
+    width: 213px;
+    height: 10px;
+    background: rgb(0, 0, 0); 
+    display: table;
+    color: #fff;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.inputEditPlace {
+    width: 90%;
+}
+
+.profileMenu {
+    height: 360px; 
+    overflow-y: auto
+}
+
+/* ADDRESS */
+.btnAddAddress {
+    width: 100%; 
+    border-style: dashed; 
+    height: 70px;
+    background-color: white;
+}
+
+.modalAddAddress {
+    width: 630px
+}
+
+.addressPoint {
+    font-size: 13px
+}
+
+.inputAddressTag {
+    width: 100%
+}
+
+.btnEditAddress {
+    color: black;
+    font-weight: bold;
+}
+
+.editAddressInfo {
+    font-size: 10px; 
+    color: rgb(158, 157, 157)
+}
+
+/* FOOTER */
+.footer-brand {
+    color: black;
+}
+
+.footer-brand:hover {
+    text-decoration: none;
+    color: black;
+}
+
+.footer {
+    font-size: 11px;
+}
+
+hr {
+    border: 2px solid black;
+}
+
+.brand {
+    font-family: 'Marck Script', cursive;
+}
+
+.brand-up {
+    font-size: 40px;
+}
+
+.brand-down {
+    font-size: 25px;
+}
+
+.medsos-logo {
+    width: 35px;
+}
+
+
+/* ABOUT */
+.about-title {
+    font-size: 30px;
+    font-weight: bold
+}
+
+.detailProduct {
+    text-align: justify;
+    font-size: '14px'
+}
