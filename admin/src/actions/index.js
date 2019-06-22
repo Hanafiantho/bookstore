@@ -1,6 +1,5 @@
 import axios from '../config/axios'
 import cookies from 'universal-cookie'
-import { SSL_OP_LEGACY_SERVER_CONNECT } from 'constants';
 
 const cookie = new cookies()
 
@@ -24,10 +23,9 @@ export const onLoginClick = (username, password) => {
                     payload: { id, username }
                 })
 
-
                 console.log(res.data[0])
                 cookie.set('Login', res.data[0].username, res.data[0].password, {path: '/'})
-                cookie.set('id', res.data[0].id, {path: '/'})
+                
                 
             } else {
                 dispatch({
@@ -46,6 +44,50 @@ export const onLoginClick = (username, password) => {
         })
     };
 };
+
+export const keepLogin = (username) => {
+    return dispatch => {
+        console.log(username);
+        
+        axios.get("/keepAdminLogin", {
+            params: {
+                username
+            }
+        }).then(res => {
+            console.log(res.data)
+            if (res.data.length !== 0) {
+                const { id, username } = res.data[0]
+
+                    // if(avatar) {
+                    //     axios.get('/getAvatar', {
+                    //         params: {
+                    //             username
+                    //         }
+                    //     }).then(res => {
+                    //         const avatar = res.data
+        
+                    //         dispatch({
+                    //             type: "ADD_AVATAR",
+                    //             payload: { avatar }
+                    //         })
+                    //     })
+                    // }
+
+                dispatch({
+                    type: "LOGIN_SUCCESS",
+                    payload: { id, username }
+                })
+            }
+        })
+    }
+}
+
+// Admin Logout
+export const onLogoutAdmin = () => {
+    cookie.remove("Login")
+    return { type: "AUTH_LOGOUT" }
+}
+
 
 // Add Category
 export const onAddCategory = (category) => {
@@ -66,22 +108,6 @@ export const onAddCategory = (category) => {
                     payload: {error}
                 })
             }
-        })
-    }
-}
-
-// Get Category
-export const onGetCategory = async () => {
-    return async dispatch => {
-        await axios.get('/getAvatar').then(res => {
-            console.log(res);
-            
-            
-            // dispatch({
-            //     type: "SHOW_USER AVATAR",
-            //     payload: { avatar }
-            // })
-            
         })
     }
 }

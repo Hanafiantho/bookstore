@@ -1,5 +1,5 @@
 import React from 'react'
-import {Modal, ModalBody, ModalFooter, Button} from 'reactstrap'
+import {Modal, ModalBody, ModalFooter} from 'reactstrap'
 import axios from '../config/axios'
 
 import bookIcon from '../icon/book.png'
@@ -8,7 +8,9 @@ import addIcon from '../icon/add.png'
 class ImportProduct extends React.Component {
     state = {
         modal: false,
-        categories: []
+        categories: [],
+        previewCover: '',
+        bookCover: null
     }
     
     async componentDidMount() {
@@ -24,16 +26,35 @@ class ImportProduct extends React.Component {
             modal: !prevState.modal
         }));
     }
-    
+
+    chooseBookCover = async () => {
+        await this.setState({bookCover: this.bookCover.files[0]})
+        console.log(this.state.bookCover);
+        
+        const previewCover = URL.createObjectURL(this.state.bookCover);
+        console.log(previewCover);
+
+        this.setState({previewCover : previewCover})
+    }
+
+    renderImg = () => {
+        if (this.state.previewCover) {
+            return <img src={this.state.previewCover} className=' mb-2 book-cover' />
+        } else {
+            return <img src={bookIcon} className='mb-2 book-cover'/>
+        }
+    }
+
     onSubmitNewBook = () => {
         const cover = this.bookCover.value
+        const category = this.refs.categoryList.value
         const title = this.title.value
         const writer = this.writer.value
         const price = this.price.value
         const quantity = this.quantity.value
         const synopsis = this.synopsis.value
 
-        console.log(cover, title, writer, price, quantity, synopsis)
+        console.log(cover, category, title, writer, price, quantity, synopsis)
     }
 
     renderCategoriesList = () => {
@@ -45,7 +66,7 @@ class ImportProduct extends React.Component {
                 } = categoryDetail
 
                 return (
-                    <option>{category}</option>
+                    <option value={category}>{category}</option>
                 )
             })
         }
@@ -57,7 +78,7 @@ class ImportProduct extends React.Component {
         return (
             <div>
                 <button className='btn' onClick={this.toggle}>
-                    <img src={addIcon} className='action-icon'/>
+                    <img src={addIcon} className='action-icon'/>  
                 </button>
 
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className='modal-inputAddress' size='lg'>
@@ -69,10 +90,10 @@ class ImportProduct extends React.Component {
                         </div>
                         <div className='row mb-4'>
                             <div className='col-12 text-center'>
-                                <img src={bookIcon} style={{width: '130px'}} className='mb-2'/>
+                                {this.renderImg()}
                                 <label className='brwsfile' hidden={this.state.isShowingAvatar}>
                                     Browse File
-                                    <input type="file" size="60" ref={input => this.bookCover = input} onChange={this.chooseAvatar}/>
+                                    <input type="file" size="60" ref={input => this.bookCover = input} onChange={this.chooseBookCover}/>
                                 </label>
                             </div>
                         </div>
@@ -80,7 +101,7 @@ class ImportProduct extends React.Component {
                             <div className='col-3'></div>
                             <div className='col-6'>
                                 <p className='mb-1 addressPoint '>Category</p>
-                                <select class="form-control">
+                                <select className="form-control" ref='categoryList'>
                                     {this.renderCategoriesList()}
                                 </select>
                             </div>

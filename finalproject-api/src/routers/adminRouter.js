@@ -46,4 +46,17 @@ router.get('/getAdmin', (req, res) => {
     })
 })
 
+router.get('/keepAdminLogin', (req, res) => {
+    const sqlQuery = `SELECT * FROM admins WHERE username = "${req.query.username}"`
+
+    conn.query(sqlQuery, (err, result) => {
+        if(err) {
+            return res.send(err.sqlMessage)
+        }
+
+        res.send(result)
+        console.log(result)
+    })
+})
+
 module.exports = router

@@ -11,6 +11,9 @@ export default (state = initialAdmin, action) => {
                 id: action.payload.id, 
                 username: action.payload.username, 
             }
+        
+        case "AUTH_LOGOUT":
+            return (state = initialAdmin);
 
         default:
             return state

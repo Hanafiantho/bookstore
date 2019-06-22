@@ -58,3 +58,7 @@ a.nav-link:hover {
     border-radius: 5px;
 }
 
+.book-cover {
+    width: 130px
+}
+
