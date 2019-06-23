@@ -5,10 +5,10 @@ import {connect} from 'react-redux'
 import Navigation from './Navigation.js'
 import ImportProduct from './AddProduct'
 import AddCategory from './AddCategory'
+import EditProducts from './EditProducts'
 
 import {onGetBooks} from '../actions/index'
 
-import editIcon from '../icon/edit.png'
 import deleteIcon from '../icon/delete.png'
 import axios from '../config/axios.js';
 
@@ -16,6 +16,7 @@ class ManageProducts extends React.Component {
     componentDidMount() {
         this.props.onGetBooks()
     }
+
 
     deleteBook = async (id) => {
         await axios.delete(`/deleteBooks/${id}`, {
@@ -57,12 +58,21 @@ class ManageProducts extends React.Component {
                         <td>${price}</td>
                         <td className='text-center'>{quantity}</td>
                         <td>
-                            <a href='#' className='mr-2'>
-                                <img src={editIcon} className='action-icon'/> 
-                            </a>
-                            <a href='#' onClick={() => {this.deleteBook(id)}}>
-                                <img src={deleteIcon} className='action-icon'/> 
-                            </a>
+                            <div className='d-flex'>
+                                <EditProducts
+                                    id = {id}
+                                    cover = {cover}
+                                    category = {category}
+                                    title = {title}
+                                    writer = {writer}
+                                    synopsis = {synopsis}
+                                    price = {price}
+                                    quantity = {quantity}
+                                />
+                                <a href='#' onClick={() => {this.deleteBook(id)}}>
+                                    <img src={deleteIcon} className='action-icon'/> 
+                                </a>
+                            </div>
                         </td>
                     </tr>
                 )

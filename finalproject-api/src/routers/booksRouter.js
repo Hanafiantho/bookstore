@@ -70,6 +70,28 @@ router.get('/getBooks/:cover', (req, res) => {
     res.sendFile(uploadDir + '/' + req.params.cover)
 })
 
+// Edit Books
+router.patch('/editBook/:id', upstore.single('cover'), (req, res) => {
+    const {
+        categories,
+        title, 
+        writer,
+        price,
+        quantity,
+        synopsis
+    } = req.body
+
+    const sqlQuery = `UPDATE books SET cover='${req.file.filename}', categories=${categories}, title='${title}', writer='${writer}', price=${price}, quantity=${quantity}, synopsis='${synopsis}' WHERE id = ${req.params.id}`
+
+    conn.query(sqlQuery, (err, result) => {
+        if (err) {
+            return res.send(err.sqlMessage)
+        }
+
+        res.send(result)
+    })
+})
+
 // Delete Books
 router.delete('/deleteBooks/:id', (req, res) => {
     const sqlQuery = `DELETE FROM books WHERE id = ?`
