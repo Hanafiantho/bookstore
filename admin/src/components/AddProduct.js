@@ -1,6 +1,9 @@
 import React from 'react'
 import {Modal, ModalBody, ModalFooter} from 'reactstrap'
 import axios from '../config/axios'
+import {connect} from 'react-redux'
+
+import {onGetBooks} from '../actions/index'
 
 import bookIcon from '../icon/book.png'
 import addIcon from '../icon/add.png'
@@ -78,6 +81,10 @@ class ImportProduct extends React.Component {
                     // })
         })
 
+        {this.props.onGetBooks()}
+
+        this.setState({previewCover: ''})
+        
         {this.toggle()}
     }
 
@@ -174,4 +181,4 @@ class ImportProduct extends React.Component {
     }
 }
 
-export default ImportProduct
+export default connect(null, {onGetBooks})(ImportProduct)

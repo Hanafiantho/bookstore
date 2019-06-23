@@ -56,7 +56,7 @@ router.post('/addBook', upstore.single('cover'), (req, res) => {
 
 // Get All Books
 router.get('/getBooks' , (req, res) => {
-    const sqlQuery = 'SELECT * FROM books'
+    const sqlQuery = 'SELECT b.id, b.cover, bc.category, b.title, b.writer, b.price, b.quantity, b.synopsis from books b join book_categories bc on bc.id = b.categories;'
 
     conn.query(sqlQuery, (err, result) => {
         if(err) {

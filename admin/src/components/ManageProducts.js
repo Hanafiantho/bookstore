@@ -18,13 +18,13 @@ class ManageProducts extends React.Component {
     }
 
     renderBooks = () => {
-        console.log(this.props.books);
+        console.log(this.props.books.books);
         
         if (this.props.books.books.length !== 0) {
             return this.props.books.books.map(bookDetail => {
                 const {
                     id, 
-                    categories,
+                    category,
                     cover,
                     title,
                     writer,
@@ -36,9 +36,9 @@ class ManageProducts extends React.Component {
                 return (
                     <tr>
                         <td className='pl-2'>
-                            <img src={ringer} style={{width: '50px'}}/>
+                            <img src={`http://localhost:9000/getBooks/${cover}`} style={{width: '50px'}}/>
                         </td>
-                        <td>{categories}</td>
+                        <td>{category}</td>
                         <td>{title}</td>
                         <td>{writer}</td>
                         <td>{synopsis}</td>
