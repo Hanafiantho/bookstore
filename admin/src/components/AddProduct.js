@@ -45,16 +45,40 @@ class ImportProduct extends React.Component {
         }
     }
 
-    onSubmitNewBook = () => {
-        const cover = this.bookCover.value
-        const category = this.refs.categoryList.value
+    onSubmitNewBook = async () => {
+        const cover = this.state.bookCover
+        const categories = this.refs.categoryList.value
         const title = this.title.value
         const writer = this.writer.value
         const price = this.price.value
         const quantity = this.quantity.value
         const synopsis = this.synopsis.value
 
-        console.log(cover, category, title, writer, price, quantity, synopsis)
+        // console.log(cover, category, title, writer, price, quantity, synopsis)
+        const formData = new FormData()
+
+        formData.append("cover", cover)
+        formData.append("categories", categories)
+        formData.append("title", title)
+        formData.append("writer", writer)
+        formData.append("price", price)
+        formData.append("quantity", quantity)
+        formData.append("synopsis", synopsis)
+                
+        await axios.post (`/addBook`, formData, {
+            headers: {
+                "Content-Type": "multipart/form-data"
+            }
+        }).then(res => {
+            console.log(res.data);
+
+                    // dispatch({
+                    //     type: "ADD_USER_AVATAR",
+                    //     payload: {avatar}
+                    // })
+        })
+
+        {this.toggle()}
     }
 
     renderCategoriesList = () => {
@@ -66,7 +90,7 @@ class ImportProduct extends React.Component {
                 } = categoryDetail
 
                 return (
-                    <option value={category}>{category}</option>
+                    <option value={id}>{category}</option>
                 )
             })
         }

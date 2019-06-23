@@ -4,6 +4,7 @@ const userRouter = require('./routers/userRouter')
 const addressRouter = require('./routers/addressRouter')
 const adminRouter = require('./routers/adminRouter')
 const categoryRouter = require('./routers/categoryRouter')
+const booksRouter = require('./routers/booksRouter')
 const cors = require('cors')
 
 const app = express()
@@ -14,6 +15,7 @@ app.use(userRouter)
 app.use(addressRouter)
 app.use(adminRouter)
 app.use(categoryRouter)
+app.use(booksRouter)
 
 app.listen(port, () => {
     console.log('App running on port ' + port)
