@@ -6,13 +6,61 @@ import Navigation from './Navigation.js'
 import ImportProduct from './AddProduct'
 import AddCategory from './AddCategory'
 
+import {onGetBooks} from '../actions/index'
+
 import editIcon from '../icon/edit.png'
 import deleteIcon from '../icon/delete.png'
 import ringer from '../coverImg/thumbnail_ringer.png'
 
 class ManageProducts extends React.Component {
+    componentDidMount() {
+        this.props.onGetBooks()
+    }
+
+    renderBooks = () => {
+        console.log(this.props.books);
+        
+        if (this.props.books.books.length !== 0) {
+            return this.props.books.books.map(bookDetail => {
+                const {
+                    id, 
+                    categories,
+                    cover,
+                    title,
+                    writer,
+                    price,
+                    quantity,
+                    synopsis
+                } = bookDetail
     
+                return (
+                    <tr>
+                        <td className='pl-2'>
+                            <img src={ringer} style={{width: '50px'}}/>
+                        </td>
+                        <td>{categories}</td>
+                        <td>{title}</td>
+                        <td>{writer}</td>
+                        <td>{synopsis}</td>
+                        <td>${price}</td>
+                        <td className='text-center'>{quantity}</td>
+                        <td>
+                            <a href='#' className='mr-2'>
+                                <img src={editIcon} className='action-icon'/> 
+                            </a>
+                            <a href='#'>
+                                <img src={deleteIcon} className='action-icon'/> 
+                            </a>
+                        </td>
+                    </tr>
+                )
+            })
+        }
+    }
+
     render() {
+        console.log(this.props.books.books)
+
         if(this.props.admin.username) {
             return (
                 <div className='container mt-5 px-0'>
@@ -58,25 +106,7 @@ class ManageProducts extends React.Component {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td className='pl-2'>
-                                                    <img src={ringer} style={{width: '50px'}}/>
-                                                </td>
-                                                <td>Fiction</td>
-                                                <td>Broken Things</td>
-                                                <td>Lauren Oliver</td>
-                                                <td>Everyone thinks Mia and Brynn killed their best friend. That driven by their obsession with a novel called The Way into Lovelorn the three girls had imagined themselves into the magical world where their fantasies became twisted, even deadly.</td>
-                                                <td>$3.00</td>
-                                                <td className='text-center'>50</td>
-                                                <td>
-                                                    <a href='#' className='mr-2'>
-                                                        <img src={editIcon} className='action-icon'/> 
-                                                    </a>
-                                                    <a href='#'>
-                                                        <img src={deleteIcon} className='action-icon'/> 
-                                                    </a>
-                                                </td>
-                                            </tr>
+                                            {this.renderBooks()}
                                         </tbody>
                                     </table>
                                 </div>
@@ -92,7 +122,10 @@ class ManageProducts extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    return { admin: state.auth }
+    return { 
+        admin: state.auth,
+        books: state.books
+    }
 }
 
-export default connect(mapStateToProps)(ManageProducts)
+export default connect(mapStateToProps, {onGetBooks})(ManageProducts)

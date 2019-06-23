@@ -111,3 +111,18 @@ export const onAddCategory = (category) => {
         })
     }
 }
+
+// Get Book
+export const onGetBooks = () => {
+    return dispatch => {
+        axios.get('/getBooks').then(res => {
+            console.log(res.data);
+            const books = res.data
+
+            dispatch({
+                type: "GET_BOOKS",
+                payload: {books}
+            })
+        })
+    }
+}

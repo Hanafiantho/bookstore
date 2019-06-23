@@ -53,4 +53,22 @@ router.post('/addBook', upstore.single('cover'), (req, res) => {
     })
 })
 
+
+// Get All Books
+router.get('/getBooks' , (req, res) => {
+    const sqlQuery = 'SELECT * FROM books'
+
+    conn.query(sqlQuery, (err, result) => {
+        if(err) {
+            return res.send(err.sqlMessage)
+        }
+        
+        res.send(result)
+    })
+})
+
+router.get('/getBooks/:cover', (req, res) => {
+    res.sendFile(uploadDir + '/' + req.params.cover)
+})
+
 module.exports = router
