@@ -53,7 +53,6 @@ router.post('/addBook', upstore.single('cover'), (req, res) => {
     })
 })
 
-
 // Get All Books
 router.get('/getBooks' , (req, res) => {
     const sqlQuery = 'SELECT b.id, b.cover, bc.category, b.title, b.writer, b.price, b.quantity, b.synopsis from books b join book_categories bc on bc.id = b.categories;'
@@ -69,6 +68,20 @@ router.get('/getBooks' , (req, res) => {
 
 router.get('/getBooks/:cover', (req, res) => {
     res.sendFile(uploadDir + '/' + req.params.cover)
+})
+
+// Delete Books
+router.delete('/deleteBooks/:id', (req, res) => {
+    const sqlQuery = `DELETE FROM books WHERE id = ?`
+    const data = req.params.id
+
+    conn.query(sqlQuery, data, (err, result) => {
+        if(err) {
+            return res.send(err.sqlMessage)
+        }
+
+        res.send(result)
+    })
 })
 
 module.exports = router

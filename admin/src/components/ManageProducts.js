@@ -10,10 +10,22 @@ import {onGetBooks} from '../actions/index'
 
 import editIcon from '../icon/edit.png'
 import deleteIcon from '../icon/delete.png'
-import ringer from '../coverImg/thumbnail_ringer.png'
+import axios from '../config/axios.js';
 
 class ManageProducts extends React.Component {
     componentDidMount() {
+        this.props.onGetBooks()
+    }
+
+    deleteBook = async (id) => {
+        await axios.delete(`/deleteBooks/${id}`, {
+            params: {
+                id
+            }
+        }).then(res => {
+            console.log(res)
+        })
+
         this.props.onGetBooks()
     }
 
@@ -48,7 +60,7 @@ class ManageProducts extends React.Component {
                             <a href='#' className='mr-2'>
                                 <img src={editIcon} className='action-icon'/> 
                             </a>
-                            <a href='#'>
+                            <a href='#' onClick={() => {this.deleteBook(id)}}>
                                 <img src={deleteIcon} className='action-icon'/> 
                             </a>
                         </td>
