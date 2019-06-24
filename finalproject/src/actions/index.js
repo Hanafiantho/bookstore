@@ -284,3 +284,35 @@ export const onEditAddress = (id, address_title, recepient_name, phone, address,
         })
     }
 }
+
+// GET BOOKS FROM DATABASE 
+export const onGetBooks = () => {
+    return dispatch => {
+        axios.get('/getBooks').then(res => {
+            console.log(res.data);
+            const books = res.data
+
+            dispatch({
+                type: "GET_BOOKS",
+                payload: {books}
+            })
+        })
+    }
+}
+
+// Get Cart
+export const getCart = (user_id) => {
+    console.log(user_id);
+    return dispatch => {
+        axios.get (`/getCart/${user_id}`).then(res => {
+            console.log(res.data);
+            const cart = res.data
+
+            dispatch({
+                type: "GET_CART",
+                payload: {cart}
+            })
+        })
+    }
+}
+

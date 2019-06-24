@@ -74,11 +74,6 @@ class ImportProduct extends React.Component {
             }
         }).then(res => {
             console.log(res.data);
-
-                    // dispatch({
-                    //     type: "ADD_USER_AVATAR",
-                    //     payload: {avatar}
-                    // })
         })
 
         {this.props.onGetBooks()}

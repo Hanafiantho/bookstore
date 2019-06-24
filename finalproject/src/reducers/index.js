@@ -10,7 +10,9 @@ const init = {
     avatar: "",
     error: "",
     success: "",
-    address: []
+    address: [],
+    books: [],
+    cart: []
 }
 
 const AuthReducer = (state = init, action) => {
@@ -85,8 +87,17 @@ const AuthReducer = (state = init, action) => {
                 address: action.payload.address
             }
 
-    // case "AUTH_LOGOUT":
-    //   return {...state, ...init}
+        case "GET_BOOKS":
+            return { 
+                ...state, 
+                books: action.payload.books
+            }
+        
+        case "GET_CART":
+            return {
+                ...state,
+                cart: action.payload.cart
+            }
 
         default:
             return state;

@@ -240,6 +240,12 @@ input[type="file"] {
     color: rgb(158, 157, 157)
 }
 
+/* Detail Products */
+.author {
+    font-size: 14px;
+    font-style: italic;
+}
+
 /* FOOTER */
 .footer-brand {
     color: black;

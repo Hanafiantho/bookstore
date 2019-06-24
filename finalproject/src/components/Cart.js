@@ -1,13 +1,69 @@
 import React from 'react'
+import {connect} from 'react-redux'
 
 import Footer from './Footer'
 import TopHeader from './TopHeader'
 
-import broken_things from '../img/thumbnail_broken_things.png'
-import ringer from '../img/thumbnail_ringer.png'
+import {getCart} from '../actions/index.js'
+import Cookie from 'universal-cookie'
+
+const cookie = new Cookie()
 
 class Cart extends React.Component {
+    // componentDidMount() {
+    //     const user_id = this.props.user.id
+    //     console.log(user_id);
+        
+
+    //     this.props.getCart(user_id)
+    // }
+
+    componentDidMount() {
+        const user_id = cookie.get('id')
+        if(this.props.user.cart.length === 0) {
+            console.log(user_id);
+        
+            this.props.getCart(user_id)
+        }
+        
+    }
+
+    renderCart = () => {
+        if (this.props.user.cart.length !== 0) {
+            return this.props.user.cart.map(cartDetail => {
+                const {
+                    id, 
+                    user_id, 
+                    cover, 
+                    title, 
+                    price, 
+                    quantity
+                } = cartDetail
+
+                return (
+                    <tr>
+                        <td style={{verticalAlign: 'middle'}}>
+                            <img src={`http://localhost:9000/getBookCover/${cover}`} style={{width: '50px'}}/>
+                        </td>
+                        <td style={{verticalAlign: 'middle'}}>{title}</td>
+                        <td style={{verticalAlign: 'middle'}}>
+                            <input type="number" name="quantity" min="0" max="100" step="1" defaultValue={quantity}/>
+                        </td>
+                        <td style={{verticalAlign: 'middle'}}>
+                            ${price}
+                        </td>
+                        <td className='text-center' style={{verticalAlign: 'middle'}}>
+                            <button type="button" class="btn btn-dark" style={{width: '100px'}}>Remove</button>
+                        </td>
+                    </tr>
+                )
+            })
+        }
+    }
+    
     render() {
+        console.log(this.props.user.cart)
+
         return (
             <div className='container'>
                 <TopHeader />
@@ -32,42 +88,11 @@ class Cart extends React.Component {
                                             <th scope="col">Product</th>
                                             <th scope="col">Quantity</th>
                                             <th scope="col">Price</th>
-                                            <th scope="col"></th>
+                                            <th scope="col" className='text-center'>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td style={{verticalAlign: 'middle'}}>
-                                                <img src={broken_things} style={{width: '50px'}}/>
-                                            </td>
-                                            <td style={{verticalAlign: 'middle'}}>Broken Things</td>
-                                            <td style={{verticalAlign: 'middle'}}>
-                                                <input type="number" name="quantity" min="0" max="100" step="1" />
-                                            </td>
-                                            <td style={{verticalAlign: 'middle'}}>
-                                                $3.00
-                                            </td>
-                                            <td className='text-right' style={{verticalAlign: 'middle'}}>
-                                                <button type="button" class="btn btn-dark" style={{width: '100px'}}>Remove</button>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                    <tbody>
-                                        <tr>
-                                            <td style={{verticalAlign: 'middle'}}>
-                                                <img src={ringer} style={{width: '50px'}}/>
-                                            </td>
-                                            <td style={{verticalAlign: 'middle'}}>Ringer</td>
-                                            <td style={{verticalAlign: 'middle'}}>
-                                                <input type="number" name="quantity" min="0" max="100" step="1" />
-                                            </td>
-                                            <td style={{verticalAlign: 'middle'}}>
-                                                $2.50
-                                            </td>
-                                            <td className='text-right' style={{verticalAlign: 'middle'}}>
-                                                <button type="button" class="btn btn-dark" style={{width: '100px'}}>Remove</button>
-                                            </td>
-                                        </tr>
+                                        {this.renderCart()}
                                     </tbody>
                                 </table>
                             </div>
@@ -117,4 +142,8 @@ class Cart extends React.Component {
     }
 }
 
-export default Cart
+const mapStateToProps = state => {
+    return {user: state.auth }
+}
+
+export default connect(mapStateToProps, {getCart})(Cart)

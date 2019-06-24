@@ -22,10 +22,10 @@ class EditProfile extends React.Component {
     }
 
     renderImg = () => {
-        if(this.props.user.avatar) {
-            return <img src={this.props.user.avatar} className='userAvatar' />
-        } else if (this.state.previewImg) {
+        if (this.state.previewImg) {
             return <img src={this.state.previewImg} className='userAvatar' />
+        } else if(this.props.user.avatar) {
+            return <img src={this.props.user.avatar} className='userAvatar' />
         } else {
             return <img src={avaIcon} className='userAvatar' />
         }

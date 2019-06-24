@@ -1,10 +1,11 @@
 import React from 'react'
 import {Modal, ModalBody, ModalFooter} from 'reactstrap'
 import axios from '../config/axios'
+import {connect} from 'react-redux'
+
+import {onGetBooks} from '../actions/index'
 
 import editIcon from '../icon/edit.png'
-
-// import bookIcon from '../icon/book.png'
 
 class EditProducts extends React.Component {
     state = {
@@ -174,4 +175,4 @@ class EditProducts extends React.Component {
     }
 }
 
-export default EditProducts
+export default connect (null, {onGetBooks})(EditProducts)
