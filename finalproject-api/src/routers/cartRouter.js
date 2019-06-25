@@ -33,13 +33,13 @@ router.post('/addCart', (req, res) => {
 })
 
 // Get Cart Data From Spesific User
-router.get('/getCart/:user_id', (req, res) => {
+router.get('/getCart/:user_id', async (req, res) => {
     console.log(req.params.user_id);
     
     const sqlQuery = `select a.id, a.user_id, b.cover, b.title, b.price, a.quantity from cart a
     join books b on b.id = a.book_id where user_id = ${req.params.user_id}`
 
-    conn.query(sqlQuery, (err, result) => {
+    await conn.query(sqlQuery, (err, result) => {
         if(err) {
             return res.send(err.sqlMessage)
         }

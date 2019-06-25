@@ -304,7 +304,7 @@ export const onGetBooks = () => {
 export const getCart = (user_id) => {
     console.log(user_id);
     return dispatch => {
-        axios.get (`/getCart/${user_id}`).then(res => {
+            axios.get (`/getCart/${user_id}`).then(res => {
             console.log(res.data);
             const cart = res.data
 

@@ -23,19 +23,20 @@ class Cart extends React.Component {
         this.props.getCart(user_id)
     }
 
-    addQuantity = async (id) => {
-        const quantityTot = this.quantityTot.value
+    addQuantity = (id) => {
+        const quantityTot = document.getElementById(id).value
         console.log(quantityTot)
         console.log(id);
         
-        await axios.patch (`/editQuantity/${id}`, {
+        axios.patch (`/editQuantity/${id}`, {
             quantity: quantityTot
         }).then(res => {
             console.log(res);
+            const user_id = cookie.get('id')
+            this.props.getCart(user_id)
         })
 
-        const user_id = cookie.get('id')
-        this.props.getCart(user_id)
+        
     }
 
     deleteCart = async (id) => {
@@ -70,7 +71,7 @@ class Cart extends React.Component {
                         </td>
                         <td style={{verticalAlign: 'middle'}}>{title}</td>
                         <td style={{verticalAlign: 'middle'}}>
-                            <input type="number" name="quantity" min="0" max="100" step="1" defaultValue={quantity} ref={input => this.quantityTot = input} onChange={() => {this.addQuantity(id)}}/>
+                            <input id ={id} type="number" name="quantity" min="0" max="100" step="1" defaultValue={quantity} onChange={() => {this.addQuantity(id)}}/>
                         </td>
                         <td style={{verticalAlign: 'middle'}}>
                             ${price}
@@ -114,22 +115,25 @@ class Cart extends React.Component {
     }
 
     total = () => {
-        if (this.props.user.cart.length !== 0) {
-            return this.props.user.cart.map(cartDetail => {
-                const {
-                    price,
-                    quantity
-                } = cartDetail
+        const cart = this.props.user.cart
+        console.log(cart);
 
-                var totalEach = price * quantity
-                var total = 0
-                total += totalEach
+        // const {
+        //     price, 
+        //     quantity
+        // } = cartItem
 
-                console.log(total)
+        // console.log(price);
+        
 
-                
-            })
-        }
+        // if(this.props.user.cart.length){
+        //     var sumprice = 0
+        //     this.props.cart.forEach(item => {
+        //         sumprice += obj.price
+        //     }); return sumprice
+        // } else {
+        //     return 0
+        // }
     }
 
     render() {
