@@ -31,7 +31,7 @@ class App extends React.Component{
                     <Route path='/register' component={Register} />
                     <Route path='/editprofile' component={EditProfile} />
                     <Route path='/about' component={About} />
-                    <Route path='/books' component={BooksPage} />
+                    <Route path='/books/:category' component={BooksPage} />
                     <Route path='/cart' component={Cart} />
                 </Switch>
             </BrowserRouter>

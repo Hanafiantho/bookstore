@@ -13,7 +13,7 @@ class CategoryNavigation extends React.Component {
 
                 return (
                     <NavItem className='pl-3'>
-                        <NavLink className="navstyle navhover px-0" href="#"><Link to={category} className='navstyle navhover'>{' '}{category}</Link></NavLink>
+                        <NavLink className="navstyle navhover px-0" href="#"><Link to={`/books/${category}`} className='navstyle navhover'>{' '}{category}</Link></NavLink>
                     </NavItem>
                 )
             })

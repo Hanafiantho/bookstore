@@ -1,5 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
+import axios from '../config/axios'
 
 import Footer from './Footer'
 import TopHeader from './TopHeader'
@@ -10,30 +11,52 @@ import Cookie from 'universal-cookie'
 const cookie = new Cookie()
 
 class Cart extends React.Component {
-    // componentDidMount() {
-    //     const user_id = this.props.user.id
-    //     console.log(user_id);
-        
-
-    //     this.props.getCart(user_id)
-    // }
+    state = {
+        TotalPrice : [],
+        user_id : 0
+    }
 
     componentDidMount() {
         const user_id = cookie.get('id')
-        if(this.props.user.cart.length === 0) {
-            console.log(user_id);
-        
-            this.props.getCart(user_id)
-        }
-        
+        this.setState({user_id: user_id})
+
+        this.props.getCart(user_id)
     }
 
-    renderCart = () => {
+    addQuantity = async (id) => {
+        const quantityTot = this.quantityTot.value
+        console.log(quantityTot)
+        console.log(id);
+        
+        await axios.patch (`/editQuantity/${id}`, {
+            quantity: quantityTot
+        }).then(res => {
+            console.log(res);
+        })
+
+        const user_id = cookie.get('id')
+        this.props.getCart(user_id)
+    }
+
+    deleteCart = async (id) => {
+        console.log(id);
+        
+        await axios.delete(`/deleteItemCart/${id}`, {
+            params: {
+                id
+            }
+        }).then(res => {
+            console.log(res)
+        })
+
+        this.props.getCart(this.state.user_id)
+    }
+
+    renderItems = () => {
         if (this.props.user.cart.length !== 0) {
             return this.props.user.cart.map(cartDetail => {
                 const {
                     id, 
-                    user_id, 
                     cover, 
                     title, 
                     price, 
@@ -47,13 +70,13 @@ class Cart extends React.Component {
                         </td>
                         <td style={{verticalAlign: 'middle'}}>{title}</td>
                         <td style={{verticalAlign: 'middle'}}>
-                            <input type="number" name="quantity" min="0" max="100" step="1" defaultValue={quantity}/>
+                            <input type="number" name="quantity" min="0" max="100" step="1" defaultValue={quantity} ref={input => this.quantityTot = input} onChange={() => {this.addQuantity(id)}}/>
                         </td>
                         <td style={{verticalAlign: 'middle'}}>
                             ${price}
                         </td>
                         <td className='text-center' style={{verticalAlign: 'middle'}}>
-                            <button type="button" class="btn btn-dark" style={{width: '100px'}}>Remove</button>
+                            <button type="button" class="btn btn-dark" style={{width: '100px'}} onClick={() => {this.deleteCart(id)}}>Remove</button>
                         </td>
                     </tr>
                 )
@@ -61,9 +84,59 @@ class Cart extends React.Component {
         }
     }
     
+    renderSummary = () => {
+        if (this.props.user.cart.length !== 0) {
+            return this.props.user.cart.map(cartDetail => {
+                const {
+                    title, 
+                    price, 
+                    quantity
+                } = cartDetail
+                
+                const totalPrice = price * quantity
+                console.log(totalPrice);
+                
+                this.state.TotalPrice.push(totalPrice)
+
+                return (
+                    <div className='row pt-3'>
+                        <div className='col-6 text-left'>
+                            <p style={{fontWeight: 'bold'}}>{title}</p>
+                        </div>
+                        <div className='col-6 text-right'>
+                            <p>${totalPrice}</p>
+                        </div>
+                    </div>
+                )
+            })
+        }
+
+    }
+
+    total = () => {
+        if (this.props.user.cart.length !== 0) {
+            return this.props.user.cart.map(cartDetail => {
+                const {
+                    price,
+                    quantity
+                } = cartDetail
+
+                var totalEach = price * quantity
+                var total = 0
+                total += totalEach
+
+                console.log(total)
+
+                
+            })
+        }
+    }
+
     render() {
         console.log(this.props.user.cart)
-
+        console.log(this.state.TotalPrice);
+        console.log(this.state.user_id);
+        
         return (
             <div className='container'>
                 <TopHeader />
@@ -92,7 +165,7 @@ class Cart extends React.Component {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {this.renderCart()}
+                                        {this.renderItems()}
                                     </tbody>
                                 </table>
                             </div>
@@ -100,33 +173,18 @@ class Cart extends React.Component {
                     </div>
                     <div className='col-1'></div>
                     <div className='col-4 pt-4'>
-                        <div className='row'>
+                        <div className='row' style={{borderBottom: '2px solid black'}}>
                             <div className='col-12'>
                                 <h4>Order Summary</h4>
                             </div>
                         </div>
-                        <div className='row pt-3' style={{borderTop: '2px solid black'}}>
-                            <div className='col-6 text-left'>
-                                <p style={{fontWeight: 'bold'}}>Broken Things</p>
-                            </div>
-                            <div className='col-6 text-right'>
-                                <p>$6.00</p>
-                            </div>
-                        </div>
-                        <div className='row border-bottom'>
-                            <div className='col-6 text-left'>
-                                <p style={{fontWeight: 'bold'}}>Ringer</p>
-                            </div>
-                            <div className='col-6 text-right'>
-                                <p>$5.00</p>
-                            </div>
-                        </div>
+                        {this.renderSummary()}
                         <div className='row mt-3'>
                             <div className='col-6 text-left'>
                                 <p style={{fontWeight: 'bold'}}>Total</p>
                             </div>
                             <div className='col-6 text-right'>
-                                <p>$11.00</p>
+                                <p>${this.total()}</p>
                             </div>
                         </div>
                         <div className='row mt-3'>

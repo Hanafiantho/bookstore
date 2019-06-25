@@ -78,6 +78,8 @@ class EditProfile extends React.Component {
         console.log(this.props.user.username)
         console.log(this.state.previewImg)
         console.log(this.state.avatar)
+        console.log(this.props);
+        
         
         return (
             <div className='container main-container'>

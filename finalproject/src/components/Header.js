@@ -20,7 +20,7 @@ class Header extends React.Component {
                 </div>
                 <Nav vertical className='mb-3'>
                     <NavItem>
-                        <NavLink className="navstyle navhover pr-0" href="#"><Link to='/books' className='navstyle navhover'><img src={prodLogo} alt='about-logo' className="nav-logo"/> {' '}Book</Link></NavLink>
+                        <NavLink className="navstyle navhover pr-0" href="#"><Link to='/books/0' className='navstyle navhover'><img src={prodLogo} alt='about-logo' className="nav-logo"/> {' '}Book</Link></NavLink>
                     </NavItem>
 
                     <NavItem>

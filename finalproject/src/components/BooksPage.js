@@ -33,7 +33,9 @@ class BooksPage extends React.Component {
     render() {
         console.log(this.state.categories);
         console.log(this.props.user.books);
+        console.log(this.props);
         
+
         return (
             <div className='container main-container'>
                 <div className='mb-2'>
@@ -51,6 +53,7 @@ class BooksPage extends React.Component {
                     <div className='col-10 pl-5 pr-5 pt-4'>
                         <Books 
                             books = {this.props.user.books}
+                            category = {this.props.match.params.category}
                         />
                     </div>
                 </div>

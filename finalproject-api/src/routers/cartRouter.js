@@ -53,4 +53,32 @@ router.get('/getBookCover/:cover', (req, res) => {
     res.sendFile(uploadDir + '/' + req.params.cover)
 })
 
+// Add Product Quantity
+router.patch('/editQuantity/:id', (req, res) => {
+    // const data = [req.body, req.params.id]
+    const sqlQuery = `UPDATE cart SET quantity = ${req.body.quantity} WHERE id = ${req.params.id}`
+
+    conn.query(sqlQuery, (err, result) => {
+        if (err) {
+            return res.send(err.sqlMessage)
+        }
+
+        res.send(result)
+    })
+})
+
+// Remove Item on Cart
+router.delete('/deleteItemCart/:id', (req, res) => {
+    const sqlQuery = `DELETE FROM cart WHERE id = ?`
+    const data = req.params.id
+
+    conn.query(sqlQuery, data, (err, result) => {
+        if(err) {
+            return res.send(err.sqlMessage)
+        }
+
+        res.send(result)
+    })
+})
+
 module.exports = router

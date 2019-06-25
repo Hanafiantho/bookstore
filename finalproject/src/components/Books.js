@@ -18,7 +18,8 @@ class Books extends React.Component {
                     synopsis
                 } = booksDetail
 
-                return (
+                if (category === this.props.category) {
+                    return (
                         <BookDetail
                             id = {id}
                             writer = {writer}
@@ -27,14 +28,15 @@ class Books extends React.Component {
                             price = {price}
                             synopsis = {synopsis}
                         />
-
                 )
+                }
+                
             })
         }
     }
 
     render() {
-        console.log(this.props.books)
+        console.log(this.props)
         
         return (
             <div className='container px-0'>
