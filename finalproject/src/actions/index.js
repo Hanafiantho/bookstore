@@ -316,3 +316,66 @@ export const getCart = (user_id) => {
     }
 }
 
+// Get Total Price From All Item In Cart
+export const getTotalPrice = (user_id) => {
+    return dispatch => {
+        axios.get('/totalAllPrice', {
+            params : {
+                user_id
+            }
+        }).then(res => {
+            console.log(res.data[0].total_price);
+            const totalprice = res.data[0].total_price
+    
+            dispatch({
+                type: "GET_TOTAL_PRICE",
+                payload: {totalprice}
+            })
+        })
+    }
+}
+
+// Get Payment Method
+export const getPaymentMethod = () => {
+    return dispatch => {
+        axios.get('/getPayment').then(res => {
+            console.log(res.data);
+            const payment = res.data
+
+            dispatch({
+                type: "GET_PAYMENT_METHOD",
+                payload: {payment}
+            })
+        })
+    }
+}
+
+// Get Shipping Method
+export const getShippingMethod = () => {
+    return dispatch => {
+        axios.get('/getShipping').then(res => {
+            console.log(res.data);
+            const shipping = res.data
+
+            dispatch({
+                type: "GET_SHIPPING_METHOD",
+                payload: {shipping}
+            })
+        })
+    }
+}
+
+// Get New Books
+export const onGetNewBooks = () => {
+    return dispatch => {
+        axios.get('/getNewBooksThisWeek').then(res => {
+            console.log(res.data);
+            const newbooks = res.data
+
+            dispatch({
+                type: "GET_NEW_BOOKS",
+                payload: {newbooks}
+            })
+        })
+    }
+}

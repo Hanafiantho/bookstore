@@ -13,23 +13,19 @@ class Home extends React.Component{
 
     render() {
         return (
-            <div className='container main-container border-bottom-1'>
+            <div className='container main-container border-bottom-1 p-5'>
                 <div className='mb-2'>
                     <TopHeader />
                 </div>
                 <div className='row'>
-                {/* navbar */}
                     <div className='col-2 p-0'>
                         <Header />
                     </div>
-                {/* slide image */}
                     <div className='col-10'>
                         <Content />
                     </div>
                 </div>
-
-                {/* Footer */}
-                <div className='mt-1'>
+                <div className='mt-4'>
                     <Footer />
                 </div>
             </div>

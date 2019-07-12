@@ -95,12 +95,6 @@ class EditAddress extends React.Component {
                                 <input type='text' className='form-control inputAddressTag' ref={input => this.country = input} placeholder={this.props.country} required/>
                             </div>
                         </div>
-                        <div className='row mb-2'>
-                            <div className='col-12'>
-                                <input type="checkbox" id="mainaddress" className='mr-2' checked={this.state.isMainAddress}/>
-                                <label for="mainaddress" className='mb-0 addressPoint'>Main Address</label>
-                            </div>
-                        </div>
                     </ModalBody>
                     <ModalFooter>
                         <button className='btn btn-outline-dark' onClick={this.toggle}>Cancel</button>{' '}

@@ -17,6 +17,7 @@ class EditProfile extends React.Component {
     }
 
     componentDidMount() {
+        document.title = 'Bookstore | Profile'
         const username = this.props.user.username
         this.props.keepLogin(username)
     }
@@ -82,7 +83,7 @@ class EditProfile extends React.Component {
         
         
         return (
-            <div className='container main-container'>
+            <div className='container main-container p-5'>
                 <div className='row mb-3'>
                     <div className='col-3'>
                         <div className='card cardAvatar'>
@@ -91,10 +92,10 @@ class EditProfile extends React.Component {
                                     {this.renderImg()}
                                 </div>
                             </div>
-                            <div className='card-body text-center'>
+                            <div className='card-body text-center mt-2 px-3'>
                                 <label className='brwsfile' hidden={this.state.isShowingAvatar}>
                                     Browse File
-                                    <input type="file" size="60" ref={input => this.avatar = input} onChange={this.chooseAvatar}/>
+                                    <input type="file" ref={input => this.avatar = input} onChange={this.chooseAvatar}/>
                                 </label>
                                 <button className='saveAvaBtn' hidden={!this.state.isShowingAvatar} onClick={this.saveAvatar}>Save</button>
                                 <button className='saveAvaBtn' hidden={!this.state.isShowingAvatar} onClick={this.saveAvatar}>Delete</button>

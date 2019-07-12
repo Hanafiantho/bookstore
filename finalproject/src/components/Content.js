@@ -1,103 +1,70 @@
 import React from 'react'
+import {connect} from 'react-redux'
 
+import {onGetNewBooks} from '../actions/index'
 import Carousel from './Carousel'
 
 class Content extends React.Component {
+    componentDidMount() {
+        this.props.onGetNewBooks()
+    }
+    
+    renderNewBooks = () => {
+        if (this.props.user.newbooks.length) {
+            return this.props.user.newbooks.map(newbooksDetail => {
+                const {
+                    id,
+                    cover,
+                    category,
+                    price,
+                    title,
+                    writer
+                } = newbooksDetail
+
+                return (
+                    <div className='col-2 text-left'>
+                        <button className='btn p-3' onClick={this.toggle}>
+                            <div className='row'>
+                                <div className='col-12'>
+                                    <img src={`http://localhost:9000/getBooks/${cover}`} style={{width: '130px'}}/>
+                                </div>
+                            </div>
+                            <div className='row mt-2'>
+                                <div className='col-12 text-center'>
+                                    <h6 className='text-dark' style={{fontWeight: 'bold'}}>{title}</h6>
+                                </div>
+                            </div>
+                        </button>
+                    </div>
+                )
+            })
+        }
+    }
+
     render() {
+        console.log(this.props.user.newbooks);
         return (
             <div className='container'>
                 <div className='row'>
-                    <div className='col'>
+                    <div className='col-12'>
                         <Carousel />
                     </div>
                 </div>
-                <div className='row mt-5 border-bottom border-dark'>
-                        <div className='col'>
-                            <h2 className='float-left'>New This Week</h2>
-                        </div>
-                        <div className='col pt-3'>
-                            <a className='float-right seeallhover text-dark'>See all >></a>
+                {/* <div className='row mt-5' style={{borderBottom: '3px solid black'}}>
+                        <div className='col-12'>
+                            <h2 className='float-left'>New Arrivals</h2>
                         </div>
                 </div>
-                <div className='row mt-4'>
-                    <div className='col-2'>
-                        <div className='card border-0' style={{width: '8rem'}}>
-                            <div className='card-head text-center'>
-                                <img src={require ('../img/crazyrichasians.jpeg')} style={{width: 120}} />
-                            </div>
-                            <div className='card-body pl-2'>
-                                <h6 className='card-title mb-2'>Crazy Rich Asian</h6>
-                                <a href='#'></a>
-                                <p className='mb-0 apfont text-primary'>Kwan, Kevin</p>
-                                <p className='apfont text-danger'>Rp 122.000</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div className='col-2'>
-                        <div className="card border-0" style={{width: '8rem'}}>
-                            <div className='card-head text-center'>
-                                <img src={require ('../img/harrypotter.jpeg')} style={{width: 120}} />
-                            </div>
-                            <div className='card-body pl-1'>
-                                <h6 className='card-title mb-2'>Harry Potter</h6>
-                                <p className='mb-0 apfont text-primary'>Rownling, J. K.</p>
-                                <p className='apfont text-danger'>Rp 164.000</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div className='col-2'>
-                        <div className="card border-0" style={{width: '8rem'}}>
-                            <div className='card-head text-center'>
-                                <img src={require ('../img/flowergirls.jpeg')} style={{width: 120}} />
-                            </div>
-                            <div className='card-body pl-1'>
-                                <h6 className='card-title mb-2'>The Flower Girls</h6>
-                                <p className='mb-0 apfont text-primary'>Clark-Platts, Alice</p>
-                                <p className='apfont text-danger'>Rp 218.000</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div className='col-2'>
-                        <div className='card border-0' style={{width: '8rem'}}>
-                            <div className='card-head text-center'>
-                                <img src={require ('../img/harrypotter.jpeg')} style={{width: 120}} />
-                            </div>
-                            <div className='card-body pl-1'>
-                                <h6 className='card-title mb-2'>Harry Potter</h6>
-                                <p className='mb-0 apfont text-primary'>Rownling, J. K.</p>
-                                <p className='apfont text-danger'>Rp 164.000</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div className='col-2'>
-                        <div className='card border-0' style={{width: '8rem'}}>
-                            <div className='card-head text-center'>
-                                <img src={require ('../img/prestin&child.jpeg')} style={{width: 120}} />
-                            </div>
-                            <div className='card-body pl-1'>
-                                <h6 className='card-title mb-2'>The Paraoh Key</h6>
-                                <p className='mb-0 apfont text-primary'>Clark-Platts, Alice</p>
-                                <p className='apfont text-danger'>Rp 218.000</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div className='col-2'>
-                        <div className='card border-0' style={{width: '8rem'}}>
-                            <div className='card-head text-center'>
-                                <img src={require ('../img/flowergirls.jpeg')} style={{width: 120}} />
-                            </div>
-                            <div className='card-body pl-1'>
-                                <h6 className='card-title mb-2'>The Flower Girls</h6>
-                                <p className='mb-0 apfont text-primary'>Clark-Platts, Alice</p>
-                                <p className='apfont text-danger'>Rp 218.000</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <div className='row mt-2'>
+                    {this.renderNewBooks()}
+                </div> */}
             </div>
         )
     }
 }
 
-export default Content
+const mapStateToProps = state => {
+    return { user: state.auth }
+}
+
+export default connect (mapStateToProps, {onGetNewBooks})(Content)

@@ -106,4 +106,17 @@ router.delete('/deleteBooks/:id', (req, res) => {
     })
 })
 
+// New Book This Week
+router.get('/getNewBooksThisWeek' , (req, res) => {
+    const sqlQuery = 'select a.id, a.cover, b.category, a.title, a.writer, a.price from books a join book_categories b on b.id = a.categories order by a.id desc limit 6;'
+
+    conn.query(sqlQuery, (err, result) => {
+        if(err) {
+            return res.send(err.sqlMessage)
+        }
+        
+        res.send(result)
+    })
+})
+
 module.exports = router

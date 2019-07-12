@@ -72,6 +72,8 @@ class EditPassword extends React.Component {
                 })
             })
         }
+
+        window.location.reload()
     }
 
     render() {

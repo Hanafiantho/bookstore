@@ -12,7 +12,11 @@ const init = {
     success: "",
     address: [],
     books: [],
-    cart: []
+    cart: [],
+    totalprice: null,
+    payment: [],
+    shipping: [],
+    newbooks: []
 }
 
 const AuthReducer = (state = init, action) => {
@@ -98,6 +102,30 @@ const AuthReducer = (state = init, action) => {
                 ...state,
                 cart: action.payload.cart
             }
+
+        case "GET_TOTAL_PRICE":
+            return {
+                ...state,
+                totalprice: action.payload.totalprice
+            }
+        
+        case "GET_PAYMENT_METHOD":
+            return {
+                ...state,
+                payment: action.payload.payment
+            }
+        
+        case "GET_SHIPPING_METHOD":
+            return {
+                ...state,
+                shipping: action.payload.shipping
+            }
+
+        case "GET_NEW_BOOKS":
+                return {
+                    ...state,
+                    newbooks: action.payload.newbooks
+                }
 
         default:
             return state;

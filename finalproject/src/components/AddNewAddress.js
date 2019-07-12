@@ -1,61 +1,23 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import { Modal, ModalBody, ModalFooter } from 'reactstrap'
+import {Modal, ModalBody, ModalFooter} from 'reactstrap'
 
-import axios from '../config/axios.js'
-import AddressList from '../components/AddressList'
-import { getAddress } from '../actions/index.js'
-
-class AddressDetail extends React.Component {
+class AddNewAddress extends React.Component {
     state = {
         modal: false,
         isMainAddress: true
     }
-
+    
     toggle = () => {
         this.setState(prevState => ({
             modal: !prevState.modal
         }));
     }
-
-    onSubmitAddress = async () => {
-        const user_id = this.props.user.id
-        const address_title = this.addrTitle.value
-        const recepient_name = this.recepName.value
-        const phone = this.phnNumber.value
-        const address = this.address.value
-        const city = this.city.value
-        const postal_code = this.postCode.value
-        const province = this.province.value
-        const country = this.country.value
-
-        console.log(user_id, address_title, recepient_name, phone, address, city, postal_code, province, country);
-        
-        await axios.post (`/addAddress`, {
-            user_id,
-            address_title,
-            recepient_name,
-            phone,
-            address,
-            city, 
-            postal_code,
-            province,
-            country
-        }).then(res => {
-            console.log(res);
-        })
-
-        this.toggle()
-
-        this.props.getAddress(user_id)
-    }
-
+    
     render() {
         return (
             <div>
-                <button className='mb-3 btnAddAddress' onClick={this.toggle}>
-                    Add New Address
-                </button>
+                <button className='btn btn-dark' onClick={this.toggle}>Edit</button>
+
                 <Modal isOpen={this.state.modal} toggle={this.toggle} size='lg' className='modalAddAddress'>
                     <ModalBody className='p-4'>
                         <div className='row text-center my-3'>
@@ -115,16 +77,9 @@ class AddressDetail extends React.Component {
                         <button className='btn btn-dark' onClick={this.onSubmitAddress}>Add</button>
                     </ModalFooter>
                 </Modal>
-                <div>
-                    <AddressList />
-                </div>
             </div>
         )
     }
 }
 
-const mapStateToProps = state => {
-    return { user: state.auth }
-}
-
-export default connect(mapStateToProps, {getAddress})(AddressDetail)
+export default AddNewAddress

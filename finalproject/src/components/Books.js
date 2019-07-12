@@ -41,7 +41,7 @@ class Books extends React.Component {
         return (
             <div className='container px-0'>
                 <div className='row pl-3'>
-                    <h4>All Books</h4>
+                    <h4>{this.props.category}</h4>
                 </div>
                 <div className='row'>
                     {this.renderBooks()}

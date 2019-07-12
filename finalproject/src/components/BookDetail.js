@@ -22,7 +22,8 @@ class BookDetail extends React.Component {
 
         axios.get('/checkCart', {
             params : {
-                book_id
+                book_id,
+                user_id
             }
         }).then(res => {
             console.log(res.data);
@@ -39,7 +40,6 @@ class BookDetail extends React.Component {
                 
             }
         })
-
         {this.toggle()}
     }
 

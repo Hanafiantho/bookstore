@@ -6,7 +6,7 @@ const uploadDir = path.join(__dirname + '/../uploads/books_cover/' )
 
 // Add To Product
 router.get('/checkCart', (req, res) => {
-    const sqlQuery = `SELECT * FROM cart WHERE book_id = ${req.query.book_id}`
+    const sqlQuery = `SELECT * FROM cart WHERE book_id = ${req.query.book_id} and user_id = ${req.query.user_id}`
 
     conn.query(sqlQuery, (err, result) => {
         if (err) { 
@@ -33,13 +33,13 @@ router.post('/addCart', (req, res) => {
 })
 
 // Get Cart Data From Spesific User
-router.get('/getCart/:user_id', async (req, res) => {
+router.get('/getCart/:user_id', (req, res) => {
     console.log(req.params.user_id);
     
-    const sqlQuery = `select a.id, a.user_id, b.cover, b.title, b.price, a.quantity from cart a
+    const sqlQuery = `select a.id, a.user_id, b.cover, b.title, b.writer, b.price, a.quantity, a.totprice from cart a
     join books b on b.id = a.book_id where user_id = ${req.params.user_id}`
 
-    await conn.query(sqlQuery, (err, result) => {
+    conn.query(sqlQuery, (err, result) => {
         if(err) {
             return res.send(err.sqlMessage)
         }
@@ -80,5 +80,30 @@ router.delete('/deleteItemCart/:id', (req, res) => {
         res.send(result)
     })
 })
+
+
+router.patch('/totPriceEachItem/:id', (req, res) => {
+    const sqlQuery = `UPDATE cart SET totprice = ${req.body.totprice} WHERE id = ${req.params.id}`
+
+    conn.query(sqlQuery, (err, result) => {
+        if(err) {
+            return res.send(err.sqlMessage)
+        }
+
+        return res.send(result)
+    })
+})
+
+// router.get('/totalAllPrice', (req, res) => {
+//     const sqlQuery = `SELECT SUM(totprice) AS total_price FROM cart WHERE user_id = ${req.query.user_id}`
+
+//     conn.query(sqlQuery, (err, result) => {
+//         if(err) {
+//             res.send(err.sqlMessage)
+//         }
+
+//         res.send(result)
+//     })
+// })
 
 module.exports = router

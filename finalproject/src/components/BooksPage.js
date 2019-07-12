@@ -37,7 +37,7 @@ class BooksPage extends React.Component {
         
 
         return (
-            <div className='container main-container'>
+            <div className='container main-container p-5'>
                 <div className='mb-2'>
                     <TopHeader />
                 </div>

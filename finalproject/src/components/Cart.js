@@ -1,26 +1,34 @@
 import React from 'react'
 import {connect} from 'react-redux'
+import {Link} from 'react-router-dom'
 import axios from '../config/axios'
 
 import Footer from './Footer'
 import TopHeader from './TopHeader'
 
 import {getCart} from '../actions/index.js'
+import {getTotalPrice} from '../actions/index.js'
 import Cookie from 'universal-cookie'
 
 const cookie = new Cookie()
 
 class Cart extends React.Component {
     state = {
-        TotalPrice : [],
+        grandTotal : 0,
         user_id : 0
     }
 
     componentDidMount() {
+        document.title = 'Bookstore | Cart'
         const user_id = cookie.get('id')
         this.setState({user_id: user_id})
 
         this.props.getCart(user_id)
+        this.props.getTotalPrice(user_id)
+    }
+
+    componentWillMount() {
+        this.props.getTotalPrice(cookie.get('id'))
     }
 
     addQuantity = (id) => {
@@ -36,7 +44,8 @@ class Cart extends React.Component {
             this.props.getCart(user_id)
         })
 
-        
+        const user_id = cookie.get('id')
+        this.props.getTotalPrice(user_id)
     }
 
     deleteCart = async (id) => {
@@ -86,20 +95,26 @@ class Cart extends React.Component {
     }
     
     renderSummary = () => {
-        if (this.props.user.cart.length !== 0) {
+        if (this.props.user.cart.length) { 
             return this.props.user.cart.map(cartDetail => {
                 const {
+                    id,
                     title, 
                     price, 
                     quantity
                 } = cartDetail
                 
                 const totalPrice = price * quantity
-                console.log(totalPrice);
                 
-                this.state.TotalPrice.push(totalPrice)
+                console.log(totalPrice);
 
-                return (
+                axios.patch(`/totPriceEachItem/${id}`, {
+                    totprice: totalPrice
+                }).then(res => {
+                    console.log(res)
+                })
+
+                    return (
                     <div className='row pt-3'>
                         <div className='col-6 text-left'>
                             <p style={{fontWeight: 'bold'}}>{title}</p>
@@ -111,38 +126,25 @@ class Cart extends React.Component {
                 )
             })
         }
-
     }
-
-    total = () => {
-        const cart = this.props.user.cart
-        console.log(cart);
-
-        // const {
-        //     price, 
-        //     quantity
-        // } = cartItem
-
-        // console.log(price);
-        
-
-        // if(this.props.user.cart.length){
-        //     var sumprice = 0
-        //     this.props.cart.forEach(item => {
-        //         sumprice += obj.price
-        //     }); return sumprice
-        // } else {
-        //     return 0
-        // }
-    }
-
+    
     render() {
         console.log(this.props.user.cart)
         console.log(this.state.TotalPrice);
         console.log(this.state.user_id);
+        console.log(this.props.user.totalprice)
+        
+        var grandTotal = 0
+        if(this.props.user.cart.length) {
+            this.props.user.cart.forEach(obj => {
+                grandTotal += obj.price * obj.quantity
+            })
+        }
+        
+        console.log(grandTotal);
         
         return (
-            <div className='container'>
+            <div className='container main-container p-5'>
                 <TopHeader />
                 <div className='row mb-5'>
                     <div className='col-7'>
@@ -188,17 +190,21 @@ class Cart extends React.Component {
                                 <p style={{fontWeight: 'bold'}}>Total</p>
                             </div>
                             <div className='col-6 text-right'>
-                                <p>${this.total()}</p>
+                                <p>{grandTotal}</p>
                             </div>
                         </div>
                         <div className='row mt-3'>
                             <div className='col-12 text-center'>
-                                <button className='btn btn-dark' style={{width: '100%'}}>Proceed To Checkout</button>
+                                <button className='btn btn-dark' onClick={this.onClick} style={{width: '100%'}}>
+                                    <Link style={{color: 'white', textDecoration: 'none', width: '100%'}} to={`/checkout/${grandTotal}`}>Proceed To Checkout</Link>
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
-                <Footer className='mt-5'/>
+                <div className='mt-5'>
+                    <Footer />
+                </div>
             </div>
         )
     }
@@ -208,4 +214,4 @@ const mapStateToProps = state => {
     return {user: state.auth }
 }
 
-export default connect(mapStateToProps, {getCart})(Cart)
+export default connect(mapStateToProps, {getCart, getTotalPrice})(Cart)
