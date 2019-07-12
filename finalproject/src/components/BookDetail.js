@@ -17,8 +17,9 @@ class BookDetail extends React.Component {
     addProductToCart = () => {
         const user_id = this.props.user.id
         const book_id = this.props.id
+        const quantity = 1
 
-        console.log(user_id, book_id)
+        console.log(user_id, book_id, quantity)
 
         axios.get('/checkCart', {
             params : {
@@ -31,13 +32,14 @@ class BookDetail extends React.Component {
             if (res.data.length === 0) {
                 axios.post (`/addCart`, {
                     user_id,
-                    book_id
+                    book_id,
+                    quantity
                 }).then(res => {
                     console.log(res);
+
                 })
             } else {
-                console.log('product sudah ada di cart');
-                
+                console.log('product is already in the cart');
             }
         })
         {this.toggle()}

@@ -17,17 +17,38 @@ router.get('/checkCart', (req, res) => {
     })
 })
 
-router.post('/addCart', (req, res) => {
+router.post('/addCart', async (req, res) => {
     const sqlQuery = 'INSERT INTO cart SET ?;'
+    const sqlQuery1 = `SELECT quantity FROM books WHERE id = ${req.body.book_id}`
     const data = req.body
 
-    conn.query(sqlQuery, data, (err, result) => {
+    await conn.query(sqlQuery, data, async (err, result) => {
         if(err) {
             return res.send(err.sqlMessage)
         }
 
-        res.send(result)
-        console.log(result);
+        await conn.query(sqlQuery1, (err, result) => {
+            if(err) {
+                return res.send(err.sqlMessage)
+            }
+            res.send(result)
+
+            console.log(result);
+
+            var book_quantity = result[0].quantity
+            console.log(book_quantity);
+            var item_quantity = req.body.quantity
+            console.log(item_quantity);
+            book_quantity = book_quantity - item_quantity
+            console.log(book_quantity);
+
+            const sqlQuery2 = `UPDATE books SET quantity = ${book_quantity} WHERE id = ${req.body.book_id}`
+            conn.query(sqlQuery2, (err, result) => {
+                if(err) {
+                    return res.send(err.sqlMessage)
+                }
+            })
+        })
         console.log('Cart successfully added')
     })
 })
