@@ -2,9 +2,11 @@ import React from 'react'
 
 import Footer from './Footer'
 import UploadTransfer from './UploadTransfer'
+import ShoppingDetail from './ShoppingDetail'
 
 import shopbagLogo from '../img/shopping-bag.png'
 import lightbulb from '../img/lightbulb-idea.png'
+import cancelLogo from '../img/cancel.png'
 
 class Transaction extends React.Component {
     render() {
@@ -79,11 +81,13 @@ class Transaction extends React.Component {
                         </div>
                     </div>
                     <div className='col-4 p-4'>
+                        <div className='row'>
+                            <div className='col-12 text-right'>
+                                <img src={cancelLogo} style={{width: '25px'}}/>
+                            </div>
+                        </div>
                         <UploadTransfer />
-                        <button className='btn btn-outline-secondary btn-upload-trf mt-2' style={{width: '100%', height: '35%'}}>
-                            <p className='mb-1'>Products</p> 
-                            <p className='mb-0'>Detail</p>
-                        </button>
+                        <ShoppingDetail />
                     </div>
                 </div>
                 <div className='mt-5'>

@@ -8,6 +8,8 @@ const booksRouter = require('./routers/booksRouter')
 const cartRouter = require('./routers/cartRouter')
 const paymentRouter = require('./routers/paymentRouter')
 const shippingRouter = require('./routers/shippingRouter')
+const orderRouter = require('./routers/orderRouter')
+const orderDetailRouter = require('./routers/orderDetailRouter')
 const cors = require('cors')
 
 const app = express()
@@ -22,6 +24,8 @@ app.use(booksRouter)
 app.use(cartRouter)
 app.use(paymentRouter)
 app.use(shippingRouter)
+app.use(orderRouter)
+app.use(orderDetailRouter)
 
 app.listen(port, () => {
     console.log('App running on port ' + port)

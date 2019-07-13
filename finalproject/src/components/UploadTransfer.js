@@ -17,7 +17,7 @@ class UploadTransfer extends React.Component {
     render() {
         return (
             <div>
-                <button className='btn btn-outline-secondary btn-upload-trf mt-4' style={{width: '100%', height: '35%'}} onClick={this.toggle}>
+                <button className='btn btn-outline-secondary btn-upload-trf mt-5' style={{width: '100%', height: '35%'}} onClick={this.toggle}>
                     <p className='mb-1'>Upload</p> 
                     <p className='mb-0'>Transfer Receipt</p>
                 </button>

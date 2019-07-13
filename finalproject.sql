@@ -73,6 +73,23 @@ create table shipping_method (
     price int
 );
 
+create table orders (
+	id int auto_increment primary key,
+    user_id int not null,
+    foreign key (user_id) references users(id)
+    on delete cascade on update cascade,
+    bank_id int not null,
+    foreign key (bank_id) references payment_method(id),
+    shipping_id int not null,
+    foreign key (shipping_id) references shipping_method(id),
+    address_id int not null,
+    foreign key (address_id) references address(id),
+    createdAt timestamp default current_timestamp,
+    order_status varchar(100),
+    subtotal int,
+    order_total int
+);
+
 alter table cart
 modify column quantity int default 1;
 
@@ -92,7 +109,9 @@ SELECT * FROM books;
 SELECT * FROM book_categories;
 SELECT * FROM cart;
 SELECT * FROM payment_method;
-SELECT * FROM 
+SELECT * FROM shipping_method;
+SELECT * FROM orders;
+
 
 -- drop table users;
 -- drop table address;
@@ -100,6 +119,7 @@ SELECT * FROM
 drop table cart;
 drop table payment_method;
 drop table shipping_method;
+drop table orders;
 
 desc cart;
 
@@ -118,6 +138,13 @@ where books.id = 12 and cart.id = 4;
 
 select sum(totprice) as total_price from cart where user_id = 1;
 
+select a.id, a.cover, b.category, a.title, a.writer, a.price from books a
+join book_categories b on b.id = a.categories order by a.id desc limit 6;
+
+select b.firstname, c.title, a.quantity, a.totprice, a.createdAt from cart a
+join users b on b.id = a.user_id
+join books c on c.id = a.book_id;
+
 INSERT INTO payment_method (`bank_name`, `bank_account`) 
 VALUES 	('BCA', 3723098781),
 		('Mandiri', 1650070070017),
@@ -130,5 +157,8 @@ VALUES 	('Same Day', 2),
 		('Selo (>2 days)', 0.5);
 
 UPDATE cart SET quantity = 3 WHERE id = 4;
+
+-- firstname, book name, quantity date of checkout totalprice 
+
 
 desc books;

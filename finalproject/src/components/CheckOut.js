@@ -13,7 +13,9 @@ const cookie = new Cookie()
 
 class CheckOut extends React.Component {
     state = {
-        value : 0
+        value : 0,
+        address_id : null,
+        total : null
     }
 
     componentDidMount() {
@@ -82,7 +84,7 @@ class CheckOut extends React.Component {
                 return (
                     <div className='row mb-3'>
                         <div className='col-12'>
-                            <button className='btn btn-outline-dark' style={{width: '100%'}}>
+                            <button className='btn btn-outline-dark' style={{width: '100%'}} onClick={() => {this.setState({address_id: id})}}>
                                 <div className='text-left'>
                                     <p className='mb-2' style={{fontSize: '14px'}}><span style={{fontWeight: 'bold'}}>{recepient_name}</span> ({address_title})</p>
                                     <p className='mb-2' style={{fontSize: '14px'}}>{phone}</p>
@@ -134,13 +136,39 @@ class CheckOut extends React.Component {
         }
     }
 
-    onCheckoutClick = () => {
+    onCheckoutClick = (total) => {
+        // Data for orders
         const user_id = this.props.user.id
-        const bank_account = this.refs.payment.value
-        const shippingPrice = this.refs.shipping.value
-        
+        const bank_id = parseInt(this.refs.payment.value)
+        const shipping_price = parseInt(this.refs.shipping.value)
+        const address_id = this.state.address_id
+        const order_status = 'waiting for payment'
+        const sub_total = parseInt(this.props.match.params.grandtotal)
+        const order_total = total
+        console.log(user_id, bank_id, shipping_price, address_id, order_status, sub_total, order_total);
 
-        console.log(user_id, bank_account, shippingPrice);
+        // Data for order Details
+        console.log(this.props.user.cart);
+        this.props.user.cart.map(orderDetail => {
+            const {
+                id,
+                user_id,
+                cover,
+                title,
+                quantity,
+                price,
+                totprice, 
+                writer
+            } = orderDetail
+
+            console.log(id, user_id, cover, title, quantity, price, totprice, writer);
+        })
+
+        // scenario :
+        // 1. post order into orders table in database
+        // 2. get order_id from table orders in database
+        // 3. post orderDetail into table order_detail in database
+        // 4. delete data on table cart based on user_id
     }
 
     render() {
@@ -149,12 +177,13 @@ class CheckOut extends React.Component {
         console.log(this.props.user.payment);
         console.log(this.props.user.shipping);
         console.log(this.state.value);
-
+        console.log(this.state.address_id);
+        
         var total = 0
-        var orderTotal = parseInt(this.state.value)
+        var shipping = parseInt(this.state.value)
         var subTotal = parseInt(this.props.match.params.grandtotal)
-        total = subTotal + orderTotal
-
+        total = subTotal + shipping
+        
         return (
             <div className='container main-container p-5'>
                 <div className='row'>
@@ -247,7 +276,7 @@ class CheckOut extends React.Component {
                         </div>
                         <div className='row mt-5'>
                             <div className='col-12'>
-                                <button className='btn btn-dark' style={{width: '100%'}} onClick={this.onCheckoutClick}>Checkout</button>
+                                <button className='btn btn-dark' style={{width: '100%'}} onClick={() => this.onCheckoutClick(total)}>Checkout</button>
                             </div>
                         </div>
                     </div>
