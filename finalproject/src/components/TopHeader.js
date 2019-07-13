@@ -108,7 +108,7 @@ class TopHeader extends React.Component {
 
                         <div className='dropdown-menu'>
                             <Link to='/editprofile' className='dropdown-item drop-item'>Profile</Link>
-                            <Link to='/' className='dropdown-item drop-item'>Notification</Link>
+                            <Link to='/transaction' className='dropdown-item drop-item'>Transaction</Link>
                             <div className='dropdown-divider'></div>
                             <a href='#' className='dropdown-item drop-item' onClick={this.props.onLogoutUser}>Log out</a>
                         </div>

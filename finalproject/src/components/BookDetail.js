@@ -18,8 +18,10 @@ class BookDetail extends React.Component {
         const user_id = this.props.user.id
         const book_id = this.props.id
         const quantity = 1
+        const bookPrice = this.props.price
+        const totprice = quantity * bookPrice
 
-        console.log(user_id, book_id, quantity)
+        console.log(user_id, book_id, quantity, totprice)
 
         axios.get('/checkCart', {
             params : {
@@ -33,7 +35,8 @@ class BookDetail extends React.Component {
                 axios.post (`/addCart`, {
                     user_id,
                     book_id,
-                    quantity
+                    quantity,
+                    totprice
                 }).then(res => {
                     console.log(res);
 

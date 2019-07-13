@@ -314,3 +314,16 @@ hr {
     text-align: justify;
     font-size: '14px'
 }
+
+/* Transaction */
+.btn-upload-trf {
+    border: 1px solid rgb(212, 212, 212);
+}
+
+.font-bold {
+    font-weight: bold;
+}
+
+.upload-area {
+    border-radius: 10px;
+}

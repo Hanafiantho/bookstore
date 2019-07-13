@@ -114,7 +114,7 @@ class Cart extends React.Component {
                     console.log(res)
                 })
 
-                    return (
+                return (
                     <div className='row pt-3'>
                         <div className='col-6 text-left'>
                             <p style={{fontWeight: 'bold'}}>{title}</p>
@@ -190,7 +190,7 @@ class Cart extends React.Component {
                                 <p style={{fontWeight: 'bold'}}>Total</p>
                             </div>
                             <div className='col-6 text-right'>
-                                <p>{grandTotal}</p>
+                                <p>${grandTotal}</p>
                             </div>
                         </div>
                         <div className='row mt-3'>

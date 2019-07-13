@@ -10,6 +10,7 @@ import EditProfile from './EditProfile'
 import BooksPage from './BooksPage'
 import Cart from './Cart'
 import CheckOut from './CheckOut'
+import Transaction from './Transaction'
 
 import {keepLogin} from '../actions/index'
 
@@ -35,6 +36,7 @@ class App extends React.Component{
                     <Route path='/books/:category' component={BooksPage} />
                     <Route path='/cart' component={Cart} />
                     <Route path='/checkout/:grandtotal' component={CheckOut} />
+                    <Route path='/transaction' component={Transaction} />
                 </Switch>
             </BrowserRouter>
         )
