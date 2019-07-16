@@ -8,6 +8,7 @@ import Cookie from 'universal-cookie'
 
 import AddNewAddress from './AddNewAddress.js'
 import Footer from './Footer'
+import axios from '../config/axios';
 
 const cookie = new Cookie()
 
@@ -136,7 +137,7 @@ class CheckOut extends React.Component {
         }
     }
 
-    onCheckoutClick = (total) => {
+    onCheckoutClick = async (total) => {
         // Data for orders
         const user_id = this.props.user.id
         const bank_id = parseInt(this.refs.payment.value)
@@ -147,27 +148,70 @@ class CheckOut extends React.Component {
         const order_total = total
         console.log(user_id, bank_id, shipping_price, address_id, order_status, sub_total, order_total);
 
-        // Data for order Details
-        console.log(this.props.user.cart);
-        this.props.user.cart.map(orderDetail => {
-            const {
-                id,
-                user_id,
-                cover,
-                title,
-                quantity,
-                price,
-                totprice, 
-                writer
-            } = orderDetail
-
-            console.log(id, user_id, cover, title, quantity, price, totprice, writer);
+        await axios.post ('/addOrder', {
+            user_id,
+            bank_id,
+            shipping_price,
+            address_id,
+            order_status,
+            sub_total,
+            order_total
+        }).then(res => {
+            console.log(res);
         })
 
+        // Data for order Details 
+        axios.get (`/getOrder`, {
+            params: {
+                user_id,
+                bank_id,
+                address_id,
+                order_total
+            }
+        }).then(res => {
+            console.log(res.data[0]);
+            const order_id = res.data[0].id
+
+            console.log(this.props.user.cart);
+            this.props.user.cart.map(orderDetail => {
+                const {
+                    id,
+                    user_id,
+                    book_id,
+                    cover,
+                    title,
+                    quantity,
+                    price,
+                    totprice, 
+                    writer
+                } = orderDetail
+    
+                console.log(id, order_id, user_id, book_id, cover, title, quantity, price, totprice, writer);
+
+                axios.post(`/addOrderdetail`, {
+                    order_id,
+                    book_id,
+                    quantity,
+                    total_price : totprice
+                }).then(res => {
+                    console.log(res);
+
+                    axios.delete(`/deleteItemCart/${id}`, {
+                        params: {
+                            id
+                        }
+                    }).then(res => {
+                        console.log(res)
+                    })
+                })
+            })
+        })
+        
+        
         // scenario :
-        // 1. post order into orders table in database
-        // 2. get order_id from table orders in database
-        // 3. post orderDetail into table order_detail in database
+        // 1. post order into orders table in database (done)
+        // 2. get order_id from table orders in database (done)
+        // 3. post orderDetail into table order_detail in database (done)
         // 4. delete data on table cart based on user_id
     }
 

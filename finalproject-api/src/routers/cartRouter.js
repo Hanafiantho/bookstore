@@ -57,7 +57,7 @@ router.post('/addCart', async (req, res) => {
 router.get('/getCart/:user_id', (req, res) => {
     console.log(req.params.user_id);
     
-    const sqlQuery = `select a.id, a.user_id, b.cover, b.title, b.writer, b.price, a.quantity, a.totprice from cart a
+    const sqlQuery = `select a.id, a.user_id, b.id as book_id, b.cover, b.title, b.writer, b.price, a.quantity, a.totprice from cart a
     join books b on b.id = a.book_id where user_id = ${req.params.user_id}`
 
     conn.query(sqlQuery, (err, result) => {

@@ -80,14 +80,24 @@ create table orders (
     on delete cascade on update cascade,
     bank_id int not null,
     foreign key (bank_id) references payment_method(id),
-    shipping_id int not null,
-    foreign key (shipping_id) references shipping_method(id),
+    shipping_price int not null,
     address_id int not null,
     foreign key (address_id) references address(id),
     createdAt timestamp default current_timestamp,
     order_status varchar(100),
-    subtotal int,
-    order_total int
+    sub_total int not null,
+    order_total int not null,
+    receipt_img varchar(100)
+);
+
+create table order_detail (
+	id int auto_increment primary key,
+    order_id int not null,
+    foreign key (order_id) references orders(id),
+    book_id int not null,
+    foreign key (book_id) references books(id),
+    quantity int not null,
+    total_price int not null
 );
 
 alter table cart
@@ -110,8 +120,8 @@ SELECT * FROM book_categories;
 SELECT * FROM cart;
 SELECT * FROM payment_method;
 SELECT * FROM shipping_method;
-SELECT * FROM orders;
-
+SELECT * FROM orders;	
+SELECT * FROM order_detail;
 
 -- drop table users;
 -- drop table address;
@@ -120,6 +130,7 @@ drop table cart;
 drop table payment_method;
 drop table shipping_method;
 drop table orders;
+drop table order_detail;
 
 desc cart;
 
@@ -144,6 +155,8 @@ join book_categories b on b.id = a.categories order by a.id desc limit 6;
 select b.firstname, c.title, a.quantity, a.totprice, a.createdAt from cart a
 join users b on b.id = a.user_id
 join books c on c.id = a.book_id;
+
+
 
 INSERT INTO payment_method (`bank_name`, `bank_account`) 
 VALUES 	('BCA', 3723098781),
